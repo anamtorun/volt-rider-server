@@ -1,0 +1,7 @@
+{
+  "name": "manufacturer-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ariful Hoque Al Amin",
+  "license": "MIT"
+}
