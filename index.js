@@ -1,7 +1,8 @@
 require('dotenv').config();
 const { client } = require('./config/connectDB');
-const { getProducts, getSingleProduct } = require('./controllers/productsController');
 
+const { getProducts, getSingleProduct } = require('./controllers/productsController');
+const { createUser } = require('./controllers/usersController');
 const cors = require('cors');
 const express = require('express');
 const app = express();
@@ -23,6 +24,8 @@ async function run() {
 
     app.get('/products', getProducts);
     app.get('/products/details/:id', getSingleProduct);
+
+    app.put('/users', createUser);
   } finally {
   }
 }
