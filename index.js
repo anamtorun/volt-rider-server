@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { client } = require('./config/connectDB');
-const { getProducts } = require('./controllers/productsController');
+const { getProducts, getSingleProduct } = require('./controllers/productsController');
 
 const cors = require('cors');
 const express = require('express');
@@ -22,6 +22,7 @@ async function run() {
     app.listen(PORT, () => console.log('Listening on port:', PORT));
 
     app.get('/products', getProducts);
+    app.get('/products/details/:id', getSingleProduct);
   } finally {
   }
 }
