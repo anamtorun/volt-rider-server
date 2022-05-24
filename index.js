@@ -7,7 +7,7 @@ const {
   updateAvailableQuantity,
 } = require('./controllers/productsController');
 const { createUser } = require('./controllers/usersController');
-const { bookOrder } = require('./controllers/ordersController');
+const { bookOrder, getMyOrders } = require('./controllers/ordersController');
 
 const cors = require('cors');
 const express = require('express');
@@ -37,6 +37,7 @@ async function run() {
     app.put('/users', createUser);
 
     app.post('/orders', verifyToken, bookOrder);
+    app.get('/orders/:email', verifyToken, getMyOrders);
   } finally {
   }
 }
