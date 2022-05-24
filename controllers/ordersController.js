@@ -16,7 +16,7 @@ exports.bookOrder = async (req, res) => {
     !productId ||
     paid
   ) {
-    return res.status(400).send('Fill in all the values');
+    return res.status(400).send({ message: 'Fill in all the values' });
   }
 
   const response = await ordersCollection.insertOne(req.body);

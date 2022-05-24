@@ -1,11 +1,18 @@
 require('dotenv').config();
 const { client } = require('./config/connectDB');
 
-const { getProducts, getSingleProduct } = require('./controllers/productsController');
+const {
+  getProducts,
+  getSingleProduct,
+  updateAvailableQuantity,
+} = require('./controllers/productsController');
 const { createUser } = require('./controllers/usersController');
+const { bookOrder } = require('./controllers/ordersController');
+
 const cors = require('cors');
 const express = require('express');
-const { bookOrder } = require('./controllers/ordersController');
+const verifyToken = require('./middleware/verifyToken');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -25,10 +32,11 @@ async function run() {
 
     app.get('/products', getProducts);
     app.get('/products/details/:id', getSingleProduct);
+    app.patch('/products/:id', verifyToken, updateAvailableQuantity);
 
     app.put('/users', createUser);
 
-    app.post('/orders', bookOrder);
+    app.post('/orders', verifyToken, bookOrder);
   } finally {
   }
 }
