@@ -10,3 +10,8 @@ exports.createUser = async (req, res) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1d' });
   res.send({ response, token });
 };
+
+exports.getUser = async (req, res) => {
+  const response = await userCollection.find();
+  res.status(200).send(response);
+};

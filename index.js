@@ -13,6 +13,7 @@ const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersCon
 const cors = require('cors');
 const express = require('express');
 const verifyToken = require('./middleware/verifyToken');
+const { addReview, getLatestReviews } = require('./controllers/reviewsController');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,9 @@ async function run() {
     app.post('/orders', verifyToken, bookOrder);
     app.get('/orders/:userId', verifyToken, getMyOrders);
     app.delete('/orders/cancel/:id', verifyToken, cancelOrder);
+
+    app.post('/reviews', verifyToken, addReview);
+    app.get('/reviews', getLatestReviews);
   } finally {
   }
 }
