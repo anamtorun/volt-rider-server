@@ -46,7 +46,7 @@ async function run() {
     app.post('/reviews', verifyToken, addReview);
     app.get('/reviews', getLatestReviews);
 
-    app.get('/admin/:id', verifyToken, isAdmin);
+    app.get('/admin/:email', verifyToken, isAdmin);
   } finally {
   }
 }
