@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { client } = require('../config/connectDB');
 const ordersCollection = client.db('fireTools').collection('orders');
 
@@ -32,4 +33,17 @@ exports.getMyOrders = async (req, res) => {
 
   const response = await ordersCollection.find({ email }).toArray();
   return res.status(200).send(response);
+};
+
+exports.cancelOrder = async (req, res) => {
+  const { id } = req.params;
+  const findOrder = await ordersCollection.findOne({ _id: ObjectId(id) });
+
+  if (!findOrder) {
+    return res.status(404).send({ message: 'Not found!' });
+  }
+
+  const response = await ordersCollection.deleteOne({ _id: ObjectId(id) });
+
+  return res.status(200).send({ response });
 };
