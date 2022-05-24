@@ -15,3 +15,12 @@ exports.getUser = async (req, res) => {
   const response = await userCollection.find();
   res.status(200).send(response);
 };
+
+exports.isAdmin = async (req, res) => {
+  const { email } = req.params;
+  const user = await userCollection.findOne({ email });
+
+  const isAdmin = user.role === 'admin';
+
+  res.send({ admin: isAdmin });
+};

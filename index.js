@@ -7,7 +7,7 @@ const {
   updateAvailableQuantity,
   reUpdateAvailableQuantity,
 } = require('./controllers/productsController');
-const { createUser } = require('./controllers/usersController');
+const { createUser, isAdmin } = require('./controllers/usersController');
 const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersController');
 
 const cors = require('cors');
@@ -45,6 +45,8 @@ async function run() {
 
     app.post('/reviews', verifyToken, addReview);
     app.get('/reviews', getLatestReviews);
+
+    app.get('/admin/:id', verifyToken, isAdmin);
   } finally {
   }
 }
