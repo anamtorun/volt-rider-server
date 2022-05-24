@@ -5,6 +5,7 @@ const { getProducts, getSingleProduct } = require('./controllers/productsControl
 const { createUser } = require('./controllers/usersController');
 const cors = require('cors');
 const express = require('express');
+const { bookOrder } = require('./controllers/ordersController');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +27,8 @@ async function run() {
     app.get('/products/details/:id', getSingleProduct);
 
     app.put('/users', createUser);
+
+    app.post('/orders', bookOrder);
   } finally {
   }
 }
