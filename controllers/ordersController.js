@@ -25,13 +25,9 @@ exports.bookOrder = async (req, res) => {
 };
 
 exports.getMyOrders = async (req, res) => {
-  const email = req.params.email;
-  const userEmailFromJWT = req.user.email;
-  if (email !== userEmailFromJWT) {
-    return res.status(403).send({ message: 'Access forbidden!' });
-  }
+  const { userId } = req.params;
 
-  const response = await ordersCollection.find({ email }).toArray();
+  const response = await ordersCollection.find({ userId }).toArray();
   return res.status(200).send(response);
 };
 

@@ -5,6 +5,7 @@ const {
   getProducts,
   getSingleProduct,
   updateAvailableQuantity,
+  reUpdateAvailableQuantity,
 } = require('./controllers/productsController');
 const { createUser } = require('./controllers/usersController');
 const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersController');
@@ -32,13 +33,14 @@ async function run() {
 
     app.get('/products', getProducts);
     app.get('/products/details/:id', getSingleProduct);
-    app.patch('/products/:id', verifyToken, updateAvailableQuantity);
+    app.put('/products/:id', verifyToken, updateAvailableQuantity);
+    app.put('/products/update-available-quantity/:id', verifyToken, reUpdateAvailableQuantity);
 
     app.put('/users', createUser);
 
     app.post('/orders', verifyToken, bookOrder);
-    app.get('/orders/:email', verifyToken, getMyOrders);
-    app.get('/orders/cancel/:id', verifyToken, cancelOrder);
+    app.get('/orders/:userId', verifyToken, getMyOrders);
+    app.delete('/orders/cancel/:id', verifyToken, cancelOrder);
   } finally {
   }
 }
