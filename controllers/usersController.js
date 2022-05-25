@@ -66,3 +66,26 @@ exports.isAdmin = async (req, res) => {
 
   res.send({ admin: isAdmin });
 };
+
+exports.getMyProfileInfo = async (req, res) => {
+  const email = req.user.email;
+  const user = await userCollection.findOne({ email });
+
+  res.send(user);
+};
+
+exports.updateMyProfile = async (req, res) => {
+  const { id } = req.params;
+
+  const filter = { _id: ObjectId(id) };
+
+  const user = await userCollection.findOne(filter);
+
+  if (!user) {
+    return res.status(404).send({ message: 'User not found' });
+  }
+
+  await userCollection.updateOne(filter, { $set: { ...req.body } }, { upsert: true });
+
+  res.status(200).send('Successful');
+};

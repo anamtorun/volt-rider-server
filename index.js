@@ -15,6 +15,8 @@ const {
   getUsers,
   deleteUser,
   makeAdmin,
+  getMyProfileInfo,
+  updateMyProfile,
 } = require('./controllers/usersController');
 const {
   bookOrder,
@@ -58,6 +60,8 @@ async function run() {
     app.get('/users', getUsers);
     app.delete('/users/delete/:userId', verifyToken, verifyAdmin, deleteUser);
     app.patch('/users/make-admin/:userId', verifyToken, verifyAdmin, makeAdmin);
+    app.get('/users/my-profile', verifyToken, getMyProfileInfo);
+    app.put('/users/:id', verifyToken, updateMyProfile);
 
     app.post('/orders', verifyToken, bookOrder);
     app.get('/orders/:userId', verifyToken, getMyOrders);
