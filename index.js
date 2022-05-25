@@ -6,6 +6,8 @@ const {
   getSingleProduct,
   updateAvailableQuantity,
   reUpdateAvailableQuantity,
+  addProduct,
+  deleteProduct,
 } = require('./controllers/productsController');
 const {
   createUser,
@@ -14,7 +16,13 @@ const {
   deleteUser,
   makeAdmin,
 } = require('./controllers/usersController');
-const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersController');
+const {
+  bookOrder,
+  getMyOrders,
+  cancelOrder,
+  getAllOrders,
+  changeOrderStatus,
+} = require('./controllers/ordersController');
 
 const cors = require('cors');
 const express = require('express');
@@ -40,9 +48,11 @@ async function run() {
     app.listen(PORT, () => console.log('Listening on port:', PORT));
 
     app.get('/products', getProducts);
+    app.post('/products', addProduct);
     app.get('/products/details/:id', getSingleProduct);
     app.put('/products/:id', verifyToken, updateAvailableQuantity);
     app.put('/products/update-available-quantity/:id', verifyToken, reUpdateAvailableQuantity);
+    app.delete('/products/:prodId', verifyToken, verifyAdmin, deleteProduct);
 
     app.put('/users', createUser);
     app.get('/users', getUsers);
@@ -52,6 +62,8 @@ async function run() {
     app.post('/orders', verifyToken, bookOrder);
     app.get('/orders/:userId', verifyToken, getMyOrders);
     app.delete('/orders/cancel/:id', verifyToken, cancelOrder);
+    app.get('/orders', verifyToken, verifyAdmin, getAllOrders);
+    app.patch('/orders/:orderId', verifyToken, verifyAdmin, changeOrderStatus);
 
     app.post('/reviews', verifyToken, addReview);
     app.get('/reviews', getLatestReviews);
