@@ -25,10 +25,36 @@ exports.deleteUser = async (req, res) => {
 
   if (exists) {
     const response = await userCollection.deleteOne(filter);
-    return res.status(204).send(response);
+    if (response) {
+      return res.status(204).send(response);
+    } else {
+      return res.send({ message: 'could not delete the user' });
+    }
   }
 
-  return res.status(404).send('Not found');
+  return res.status(404).send({ message: 'User not found' });
+};
+
+exports.makeAdmin = async (req, res) => {
+  const { userId } = req.params;
+  const filter = { _id: ObjectId(userId) };
+  const exists = await userCollection.findOne(filter);
+
+  if (!exists) {
+    return res.status(404).send({ message: 'user not found' });
+  }
+
+  const response = await userCollection.updateOne(
+    filter,
+    { $set: { role: 'admin' } },
+    { upsert: true }
+  );
+
+  if (response.modifiedCount === 1) {
+    return res.status(200).send(response);
+  }
+
+  return res.send({ message: 'Could not performed the task, try again.' });
 };
 
 exports.isAdmin = async (req, res) => {

@@ -7,7 +7,13 @@ const {
   updateAvailableQuantity,
   reUpdateAvailableQuantity,
 } = require('./controllers/productsController');
-const { createUser, isAdmin, getUsers, deleteUser } = require('./controllers/usersController');
+const {
+  createUser,
+  isAdmin,
+  getUsers,
+  deleteUser,
+  makeAdmin,
+} = require('./controllers/usersController');
 const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersController');
 
 const cors = require('cors');
@@ -41,6 +47,7 @@ async function run() {
     app.put('/users', createUser);
     app.get('/users', getUsers);
     app.delete('/users/delete/:userId', verifyToken, verifyAdmin, deleteUser);
+    app.patch('/users/make-admin/:userId', verifyToken, verifyAdmin, makeAdmin);
 
     app.post('/orders', verifyToken, bookOrder);
     app.get('/orders/:userId', verifyToken, getMyOrders);
