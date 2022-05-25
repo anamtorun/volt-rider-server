@@ -27,7 +27,8 @@ exports.bookOrder = async (req, res) => {
 exports.getMyOrders = async (req, res) => {
   const { userId } = req.params;
 
-  const response = await ordersCollection.find({ userId }).toArray();
+  const cursor = ordersCollection.find({ userId });
+  const response = await cursor.toArray();
   return res.status(200).send(response);
 };
 

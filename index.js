@@ -7,13 +7,14 @@ const {
   updateAvailableQuantity,
   reUpdateAvailableQuantity,
 } = require('./controllers/productsController');
-const { createUser, isAdmin } = require('./controllers/usersController');
+const { createUser, isAdmin, getUsers, deleteUser } = require('./controllers/usersController');
 const { bookOrder, getMyOrders, cancelOrder } = require('./controllers/ordersController');
 
 const cors = require('cors');
 const express = require('express');
 const verifyToken = require('./middleware/verifyToken');
 const { addReview, getLatestReviews } = require('./controllers/reviewsController');
+const { verifyAdmin } = require('./middleware/verifyAdmin');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,6 +39,8 @@ async function run() {
     app.put('/products/update-available-quantity/:id', verifyToken, reUpdateAvailableQuantity);
 
     app.put('/users', createUser);
+    app.get('/users', getUsers);
+    app.delete('/users/delete/:userId', verifyToken, verifyAdmin, deleteUser);
 
     app.post('/orders', verifyToken, bookOrder);
     app.get('/orders/:userId', verifyToken, getMyOrders);

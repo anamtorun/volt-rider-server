@@ -3,7 +3,6 @@ const userCollection = client.db('fireTools').collection('users');
 
 exports.verifyAdmin = async (req, res, next) => {
   const initiatorsEmail = req.user.email;
-
   const initiatorAccount = await userCollection.findOne({ email: initiatorsEmail });
 
   if (initiatorAccount.role === 'admin') {
