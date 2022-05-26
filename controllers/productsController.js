@@ -3,7 +3,7 @@ const { client } = require('../config/connectDB');
 const productCollection = client.db('fireTools').collection('products');
 
 exports.getProducts = async (req, res) => {
-  const products = await productCollection.find().toArray();
+  const products = await productCollection.find().sort({ createdAt: -1 }).limit(6).toArray();
   res.send(products);
 };
 
@@ -32,6 +32,7 @@ exports.addProduct = async (req, res) => {
     available_quantity,
     min_order_quantity,
     image,
+    createdAt: new Date().getTime(),
   });
 
   return res.status(201).send(response);

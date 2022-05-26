@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const { client } = require('../config/connectDB');
 const ordersCollection = client.db('fireTools').collection('orders');
+const stripe = require('stripe')(process.env.STRIPE_SK);
 
 exports.bookOrder = async (req, res) => {
   const { name, email, address, phoneNumber, orderQuantity, total, productName, productId, paid } =
@@ -45,7 +46,11 @@ exports.cancelOrder = async (req, res) => {
 
   const response = await ordersCollection.deleteOne({ _id: ObjectId(id) });
 
-  return res.status(200).send(response);
+  if (response.deletedCount === 1) {
+    return res.status(200).send(response);
+  }
+
+  return res.send('could not perform the task');
 };
 
 exports.getAllOrders = async (req, res) => {
@@ -66,4 +71,36 @@ exports.changeOrderStatus = async (req, res) => {
   const updateDoc = await ordersCollection.updateOne(filter, { $set: { status: 'shipped' } });
 
   res.status(200).send(updateDoc);
+};
+
+exports.generateClientSecret = async (req, res) => {
+  const { total } = req.body;
+
+  const amount = total * 100;
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount,
+    currency: 'usd',
+    payment_method_types: ['card'],
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+  const payment = req.body;
+
+  const updatedDoc = {
+    $set: { paid: true, transactionId: payment.transactionId },
+  };
+
+  const order = await ordersCollection.updateOne({ _id: ObjectId(id) }, updatedDoc, {
+    upsert: true,
+  });
+
+  res.send(order);
 };

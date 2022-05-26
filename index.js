@@ -24,6 +24,8 @@ const {
   cancelOrder,
   getAllOrders,
   changeOrderStatus,
+  generateClientSecret,
+  updateOrderStatus,
 } = require('./controllers/ordersController');
 
 const cors = require('cors');
@@ -68,6 +70,8 @@ async function run() {
     app.delete('/orders/cancel/:id', verifyToken, cancelOrder);
     app.get('/orders', verifyToken, verifyAdmin, getAllOrders);
     app.patch('/orders/:orderId', verifyToken, verifyAdmin, changeOrderStatus);
+    app.post('/create-payment-intent', verifyToken, generateClientSecret);
+    app.patch('/update-order/:id', verifyToken, updateOrderStatus);
 
     app.post('/reviews', verifyToken, addReview);
     app.get('/reviews', getLatestReviews);
