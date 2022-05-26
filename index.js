@@ -52,8 +52,8 @@ async function run() {
     app.listen(PORT, () => console.log('Listening on port:', PORT));
 
     app.get('/products', getProducts);
-    app.post('/products', addProduct);
-    app.get('/products/details/:id', getSingleProduct);
+    app.post('/products', verifyToken, verifyAdmin, addProduct);
+    app.get('/products/details/:id', verifyToken, getSingleProduct);
     app.put('/products/:id', verifyToken, updateAvailableQuantity);
     app.put('/products/update-available-quantity/:id', verifyToken, reUpdateAvailableQuantity);
     app.delete('/products/:prodId', verifyToken, verifyAdmin, deleteProduct);
