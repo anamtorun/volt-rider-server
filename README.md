@@ -2,7 +2,7 @@
 
 ## This is the server side of the project [FireTools](https://zenfitness-46154.web.app/)
 
-### Task description about the project can be found [here](https://github.com/ProgrammingHero1/Manufacturer-website-assignment/blob/main/task_description.md)
+### Task description about the project can be found [here](https://github.com/Ar1f007/fireTools-client/blob/main/Task_Description.md)
 
 ## What's included?
 
@@ -16,7 +16,7 @@
   - Make payment through Stripe
   - Role verification etc.
 
-### Client side description about the project can be found [here](https://github.com/programming-hero-web-course1/manufacturer-website-client-side-Ar1f007#readme)
+### Client side description about the project can be found [here](https://github.com/Ar1f007/fireTools-client#firetools)
 
 ## See the live site [Here](https://firetools-971b5.web.app/)
 
