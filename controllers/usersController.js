@@ -1,5 +1,5 @@
 const { client } = require('../config/connectDB');
-const userCollection = client.db('fireTools').collection('users');
+const userCollection = client.db('volt_rider').collection('users');
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
 

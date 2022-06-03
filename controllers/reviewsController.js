@@ -1,6 +1,6 @@
 const { client } = require('../config/connectDB');
 
-const reviewCollection = client.db('fireTools').collection('reviews');
+const reviewCollection = client.db('volt_rider').collection('reviews');
 
 exports.addReview = async (req, res) => {
   const { name, testimonial, ratings } = req.body;
